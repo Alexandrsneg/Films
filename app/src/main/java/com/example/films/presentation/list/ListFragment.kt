@@ -1,4 +1,4 @@
-package com.example.films.list
+package com.example.films.presentation.list
 
 import android.os.Bundle
 import android.util.Log
@@ -10,11 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
-import com.example.films.MainActivity
-import com.example.films.MyItemRecyclerViewAdapter
+import com.example.films.presentation.MainActivity
+import com.example.films.presentation.MyItemRecyclerViewAdapter
 import com.example.films.R
 import com.example.films.models.Films
 import com.example.films.placeholder.PlaceholderContent
+import com.example.films.presentation.FeedItem
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -28,6 +29,8 @@ class ListFragment : MvpAppCompatFragment(), IListView {
     private var rvList: RecyclerView? = null
 
     private val presenter by moxyPresenter { ListPresenter() }
+
+    private var adapter: MyItemRecyclerViewAdapter? = null
 
 
     override fun onCreateView(
@@ -45,16 +48,11 @@ class ListFragment : MvpAppCompatFragment(), IListView {
         loader = view.findViewById(R.id.loader)
         rvList = view.findViewById(R.id.recyclerView)
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
-            }
+        rvList?.layoutManager = LinearLayoutManager(context).apply {
+
         }
+        initAdapter()
+
         return view
     }
 
@@ -65,6 +63,14 @@ class ListFragment : MvpAppCompatFragment(), IListView {
 //        }
     }
 
+    private fun initAdapter() {
+        adapter = MyItemRecyclerViewAdapter()
+        adapter?.onGenreClickListener = { genre, isChecked ->
+            presenter.selectedGenre = genre
+        }
+        rvList?.adapter = adapter
+    }
+
     override fun showLoading(show: Boolean) {
         if (show)
             loader?.visibility = View.VISIBLE
@@ -72,8 +78,8 @@ class ListFragment : MvpAppCompatFragment(), IListView {
             loader?.visibility = View.GONE
     }
 
-    override fun setData(data: Films) {
-        Log.d("FILMS", data.toString())
+    override fun setData(data: MutableList<FeedItem>) {
+        adapter?.setList(data)
     }
 
     override fun showError(error: String) {

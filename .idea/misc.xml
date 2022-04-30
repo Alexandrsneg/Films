@@ -7,6 +7,9 @@
         <entry key="..\:/Users/aikps/AndroidStudioProjects/Films/app/src/main/res/layout/fragment_detail.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/aikps/AndroidStudioProjects/Films/app/src/main/res/layout/fragment_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/aikps/AndroidStudioProjects/Films/app/src/main/res/layout/fragment_list_list.xml" value="0.22" />
+        <entry key="..\:/Users/aikps/AndroidStudioProjects/Films/app/src/main/res/layout/gener_item_view.xml" value="0.5" />
+        <entry key="..\:/Users/aikps/AndroidStudioProjects/Films/app/src/main/res/layout/genre_item_view.xml" value="0.5" />
+        <entry key="..\:/Users/aikps/AndroidStudioProjects/Films/app/src/main/res/layout/title_item_view.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

@@ -1,8 +1,9 @@
-package com.example.films
+package com.example.films.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import com.example.films.R
 
 class MainActivity : AppCompatActivity() {
 
