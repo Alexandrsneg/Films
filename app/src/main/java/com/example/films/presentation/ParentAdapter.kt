@@ -1,8 +1,6 @@
 package com.example.films.presentation
 
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.films.RecipesDiffUtil
 
 abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 

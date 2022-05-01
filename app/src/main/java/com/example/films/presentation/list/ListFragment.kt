@@ -68,6 +68,22 @@ class ListFragment : MvpAppCompatFragment(), IListView {
         adapter?.onGenreClickListener = { genre, isChecked ->
             presenter.selectedGenre = genre
         }
+
+        val spanCount = 12
+        val oneColumns = spanCount / 1
+        val twoColumns = spanCount / 2
+
+        val layoutManager = GridLayoutManager(context, spanCount)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (adapter!!.getItemList()[position].type) {
+                   MyItemRecyclerViewAdapter.ItemType.TYPE_TITLE -> oneColumns
+                   MyItemRecyclerViewAdapter.ItemType.TYPE_GENRE -> oneColumns
+                   MyItemRecyclerViewAdapter.ItemType.TYPE_FILM -> twoColumns
+                }
+            }
+        }
+        rvList?.layoutManager = layoutManager
         rvList?.adapter = adapter
     }
 

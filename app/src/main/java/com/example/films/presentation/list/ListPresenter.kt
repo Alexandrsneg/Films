@@ -19,7 +19,7 @@ class ListPresenter : MvpPresenter<IListView>() {
         set(value) {
             field = value
             updateFilms(value)
-    }
+        }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -35,11 +35,13 @@ class ListPresenter : MvpPresenter<IListView>() {
                         }
                     }
 
-                    feedItems.add(FeedItem(
-                        type = MyItemRecyclerViewAdapter.ItemType.TYPE_TITLE,
-                        title = "Жанры"
+                    feedItems.add(
+                        FeedItem(
+                            type = MyItemRecyclerViewAdapter.ItemType.TYPE_TITLE,
+                            title = "Жанры"
 
-                    ))
+                        )
+                    )
                     uniqueGenres.forEach {
                         feedItems.add(
                             FeedItem(
@@ -49,10 +51,21 @@ class ListPresenter : MvpPresenter<IListView>() {
                         )
                     }
 
-                    feedItems.add(FeedItem(
-                        type = MyItemRecyclerViewAdapter.ItemType.TYPE_TITLE,
-                        title = "Фильмы"
-                    ))
+                    feedItems.add(
+                        FeedItem(
+                            type = MyItemRecyclerViewAdapter.ItemType.TYPE_TITLE,
+                            title = "Фильмы"
+                        )
+                    )
+
+                    it.films.forEach {
+                        feedItems.add(
+                            FeedItem(
+                                type = MyItemRecyclerViewAdapter.ItemType.TYPE_FILM,
+                                film = it
+                            )
+                        )
+                    }
 
                     viewState.setData(feedItems)
                 }
