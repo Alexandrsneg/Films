@@ -1,30 +1,26 @@
 package com.example.films.presentation.list
 
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.example.films.presentation.MainActivity
 import com.example.films.presentation.MyItemRecyclerViewAdapter
 import com.example.films.R
-import com.example.films.models.Films
-import com.example.films.placeholder.PlaceholderContent
+import com.example.films.databinding.FragmentListBinding
 import com.example.films.presentation.FeedItem
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
 class ListFragment : MvpAppCompatFragment(), IListView {
 
-    private var loader: ProgressBar? = null
-    private var rvList: RecyclerView? = null
+    private var _binding: FragmentListBinding? = null
+    private val binding get() = _binding!!
 
     private val presenter by moxyPresenter { ListPresenter() }
     private var adapter: MyItemRecyclerViewAdapter? = null
@@ -34,7 +30,7 @@ class ListFragment : MvpAppCompatFragment(), IListView {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_list_list, container, false)
+        _binding = FragmentListBinding.inflate(inflater, container, false)
         activity?.let {
             if (it is MainActivity) {
                 it.setToolbarTitle("Главная")
@@ -42,14 +38,11 @@ class ListFragment : MvpAppCompatFragment(), IListView {
             }
         }
 
-        loader = view.findViewById(R.id.loader)
-        rvList = view.findViewById(R.id.recyclerView)
-
-        rvList?.layoutManager = LinearLayoutManager(context).apply {
+        binding.recyclerView.layoutManager = LinearLayoutManager(context).apply {
 
         }
         initAdapter()
-        return view
+        return binding.root
     }
 
 
@@ -73,21 +66,21 @@ class ListFragment : MvpAppCompatFragment(), IListView {
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (adapter!!.getItemList()[position].type) {
-                   MyItemRecyclerViewAdapter.ItemType.TYPE_TITLE -> oneColumns
-                   MyItemRecyclerViewAdapter.ItemType.TYPE_GENRE -> oneColumns
-                   MyItemRecyclerViewAdapter.ItemType.TYPE_FILM -> twoColumns
+                    MyItemRecyclerViewAdapter.ItemType.TYPE_TITLE -> oneColumns
+                    MyItemRecyclerViewAdapter.ItemType.TYPE_GENRE -> oneColumns
+                    MyItemRecyclerViewAdapter.ItemType.TYPE_FILM -> twoColumns
                 }
             }
         }
-        rvList?.layoutManager = layoutManager
-        rvList?.adapter = adapter
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.adapter = adapter
     }
 
     override fun showLoading(show: Boolean) {
         if (show)
-            loader?.visibility = View.VISIBLE
+            binding.loader.visibility = View.VISIBLE
         else
-            loader?.visibility = View.GONE
+            binding.loader.visibility = View.GONE
     }
 
     override fun setData(data: MutableList<FeedItem>) {

@@ -12,14 +12,6 @@ abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Ada
         notifyDataSetChanged()
     }
 
-
-    fun setItem(index: Int, item: T): ParentAdapter<T, VH> = apply {
-        if (index !in list.indices) return@apply
-
-        list[index] = item
-    }
-
     fun getItemList(): MutableList<T> = list
-
     override fun getItemCount() = list.size
 }

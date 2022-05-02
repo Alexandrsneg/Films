@@ -12,11 +12,6 @@ import com.example.films.models.Film
 
 class DetailFragment : Fragment() {
 
-   private companion object {
-       const val FILM = "FILM"
-   }
-
-
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -26,15 +21,16 @@ class DetailFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        val film: Film? = arguments?.getParcelable<Film>("film")
+
         activity?.let {
             if (it is MainActivity){
-                it.setToolbarTitle("Деталка")
+                it.setToolbarTitle(film?.localized_name ?: "Деталка")
                 it.showBackArrowAtToolbar(true)
             }
         }
-        val film: Film? = arguments?.getParcelable<Film>("film")
         film?.let {
-            binding.tvFilmName.text = it.localized_name
+            binding.tvFilmName.text = it.name
             binding.tvYear.text = "Год: ${it.year}"
             binding.tvRating.text = "Рейтинг: ${it.rating}"
             binding.tvDescription.text = it.description
