@@ -27,7 +27,7 @@ class MyItemRecyclerViewAdapter(
     }
 
     var onGenreClickListener: ((String, Boolean) -> Unit)? = null
-    var onFilmClickListener: (() -> Unit)? = null
+    var onFilmClickListener: ((Film) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (ItemType.values()[viewType]) {

@@ -8,6 +8,7 @@
     app:chipCornerRadius="10dp"
     android:clickable="false"
     android:backgroundTint="@color/title_item_bg"
+    android:layout_marginStart="4dp"
     tools:text="Жанры">
 
 </com.google.android.material.chip.Chip>

@@ -22,15 +22,17 @@ class FilmItemView@JvmOverloads constructor(
     private var binding: FilmItemViewBinding =
         FilmItemViewBinding.inflate(LayoutInflater.from(context), this, true)
 
-    fun bind(item: Film, onClickListener: (() -> Unit)? = null) {
+    fun bind(item: Film, onClickListener: ((Film) -> Unit)? = null) {
         binding.tvFilmName.text = item.localized_name
         Glide
             .with(context)
             .load(item.image_url)
+            .placeholder(R.drawable.ic_placeholder)
             .centerCrop()
             .into(binding.ivPreview);
+
         this.setOnClickListener {
-            onClickListener?.invoke()
+            onClickListener?.invoke(item)
         }
     }
 

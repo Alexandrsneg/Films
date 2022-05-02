@@ -58,7 +58,9 @@ class ListPresenter : MvpPresenter<IListView>() {
                         )
                     )
 
-                    it.films.forEach {
+                    val sortedFilms = it.films.sortedBy { it.localized_name }
+
+                    sortedFilms.forEach {
                         feedItems.add(
                             FeedItem(
                                 type = MyItemRecyclerViewAdapter.ItemType.TYPE_FILM,
@@ -86,7 +88,10 @@ class ListPresenter : MvpPresenter<IListView>() {
             else
                 item.selected = false
 
-        viewState.setData(feedItems)
+        val copiedItems = feedItems.toMutableList()
+        copiedItems.removeAll { it.film?.genres?.contains(genre) == false }
+
+        viewState.setData(copiedItems)
     }
 
 }

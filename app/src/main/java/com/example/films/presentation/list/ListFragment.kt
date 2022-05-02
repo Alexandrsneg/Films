@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.example.films.presentation.MainActivity
 import com.example.films.presentation.MyItemRecyclerViewAdapter
 import com.example.films.R
@@ -19,17 +21,12 @@ import com.example.films.presentation.FeedItem
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-/**
- * A fragment representing a list of Items.
- */
 class ListFragment : MvpAppCompatFragment(), IListView {
 
-    private var columnCount = 1
     private var loader: ProgressBar? = null
     private var rvList: RecyclerView? = null
 
     private val presenter by moxyPresenter { ListPresenter() }
-
     private var adapter: MyItemRecyclerViewAdapter? = null
 
 
@@ -52,22 +49,21 @@ class ListFragment : MvpAppCompatFragment(), IListView {
 
         }
         initAdapter()
-
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//        view.findViewById<Button>(R.id.btnGo).setOnClickListener {
-//            findNavController().navigate(R.id.action_listFragment_to_detailFragment)
-//        }
-    }
 
     private fun initAdapter() {
-        adapter = MyItemRecyclerViewAdapter()
-        adapter?.onGenreClickListener = { genre, isChecked ->
-            presenter.selectedGenre = genre
+        adapter = MyItemRecyclerViewAdapter().apply {
+            onGenreClickListener = { genre, _ ->
+                presenter.selectedGenre = genre
+            }
+            onFilmClickListener = {
+                val bundle = bundleOf("film" to it)
+                findNavController().navigate(R.id.action_listFragment_to_detailFragment, bundle)
+            }
         }
+
 
         val spanCount = 12
         val oneColumns = spanCount / 1

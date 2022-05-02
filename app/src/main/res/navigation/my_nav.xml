@@ -16,7 +16,10 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.films.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        android:name="com.example.films.presentation.DetailFragment"
+        android:label="fragment_detail">
+        <argument
+            android:name="film"
+            app:argType="com.example.films.models.Film" />
+    </fragment>
 </navigation>

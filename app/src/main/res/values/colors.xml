@@ -11,4 +11,5 @@
     <color name="genre_off">#e5e5e5</color>
     <color name="genre_on">#85b1d6</color>
     <color name="title_item_bg">#e5e5e5</color>
+    <color name="film_title_color">@color/white</color>
 </resources>
