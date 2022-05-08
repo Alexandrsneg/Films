@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
+import com.example.films.App
 import com.example.films.presentation.MainActivity
 import com.example.films.presentation.MyItemRecyclerViewAdapter
 import com.example.films.R
@@ -16,14 +17,27 @@ import com.example.films.databinding.FragmentListBinding
 import com.example.films.presentation.FeedItem
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
+import javax.inject.Inject
+import javax.inject.Provider
 
 class ListFragment : MvpAppCompatFragment(), IListView {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
 
-    private val presenter by moxyPresenter { ListPresenter() }
     private var adapter: MyItemRecyclerViewAdapter? = null
+
+    @Inject
+    lateinit var presenterProvider: Provider<ListPresenter>
+    private val presenter by moxyPresenter { presenterProvider.get() }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent.plusFilmComponent().inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
 
     override fun onCreateView(
@@ -43,6 +57,12 @@ class ListFragment : MvpAppCompatFragment(), IListView {
         }
         initAdapter()
         return binding.root
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        presenter.destroyView(this)
+        super.onDestroy()
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.films.rest
+package com.example.films.domain.rest
 
 import com.example.films.models.Films
 import retrofit2.Call

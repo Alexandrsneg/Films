@@ -1,17 +1,24 @@
 package com.example.films.presentation.list
 
+import android.content.Context
+import com.example.films.domain.di.FilmsScope
+import com.example.films.domain.repositories.IFilmsRepository
 import com.example.films.models.Films
 import com.example.films.presentation.FeedItem
 import com.example.films.presentation.MyItemRecyclerViewAdapter
-import com.example.films.rest.RemoteSource
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
 @InjectViewState
-class ListPresenter : MvpPresenter<IListView>() {
+@FilmsScope
+class ListPresenter @Inject constructor(
+    val context: Context,
+    private val repository: IFilmsRepository
+) : MvpPresenter<IListView>() {
 
     private var uniqueGenres: HashSet<String> = hashSetOf()
     private var feedItems: MutableList<FeedItem> = mutableListOf()
@@ -25,7 +32,7 @@ class ListPresenter : MvpPresenter<IListView>() {
         super.onFirstViewAttach()
 
         viewState.showLoading(true)
-        RemoteSource.service.listRepos().enqueue(object : Callback<Films> {
+        repository.getFilmList().enqueue(object : Callback<Films> {
             override fun onResponse(call: Call<Films>, response: Response<Films>) {
                 response.body()?.let {
 
