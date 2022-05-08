@@ -11,5 +11,4 @@ object RemoteSource {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     val service: IFilmsApiService = retrofit.create(IFilmsApiService::class.java)
-    val callFilms: Call<Films> = service.listRepos()
 }

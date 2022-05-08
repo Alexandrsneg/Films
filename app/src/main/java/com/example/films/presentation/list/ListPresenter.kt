@@ -25,7 +25,7 @@ class ListPresenter : MvpPresenter<IListView>() {
         super.onFirstViewAttach()
 
         viewState.showLoading(true)
-        RemoteSource.callFilms.enqueue(object : Callback<Films> {
+        RemoteSource.service.listRepos().enqueue(object : Callback<Films> {
             override fun onResponse(call: Call<Films>, response: Response<Films>) {
                 response.body()?.let {
 

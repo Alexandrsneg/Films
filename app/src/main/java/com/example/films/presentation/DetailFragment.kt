@@ -9,6 +9,8 @@ import com.bumptech.glide.Glide
 import com.example.films.R
 import com.example.films.databinding.FragmentDetailBinding
 import com.example.films.models.Film
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class DetailFragment : Fragment() {
 
@@ -31,8 +33,8 @@ class DetailFragment : Fragment() {
         }
         film?.let {
             binding.tvFilmName.text = it.name
-            binding.tvYear.text = "Год: ${it.year}"
-            binding.tvRating.text = "Рейтинг: ${it.rating}"
+            binding.tvYear.text = getString(R.string.film_year, it.year);
+            binding.tvRating.text = getString(R.string.film_rating, it.rating)
             binding.tvDescription.text = it.description
 
             context?.let { ctx->
